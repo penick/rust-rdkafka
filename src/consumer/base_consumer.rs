@@ -20,7 +20,7 @@ use crate::consumer::{
 };
 use crate::error::{IsError, KafkaError, KafkaResult};
 use crate::groups::GroupList;
-use crate::log::trace;
+// use crate::log::trace;
 use crate::message::{BorrowedMessage, Message};
 use crate::metadata::Metadata;
 use crate::topic_partition_list::{Offset, TopicPartitionList};
@@ -541,16 +541,15 @@ where
     }
 }
 
-impl<C> Drop for BaseConsumer<C>
-where
-    C: ConsumerContext,
-{
-    fn drop(&mut self) {
-        trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
-        unsafe { rdsys::rd_kafka_consumer_close(self.client.native_ptr()) };
-        trace!("Consumer destroyed: {:?}", self.client.native_ptr());
-    }
-}
+//impl<C> Drop for BaseConsumer<C>
+//where
+//    C: ConsumerContext,
+//{
+//    fn drop(&mut self) {
+//        trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
+//        trace!("Consumer destroyed: {:?}", self.client.native_ptr());
+//    }
+//}
 
 /// A convenience iterator over the messages in a [`BaseConsumer`].
 ///
