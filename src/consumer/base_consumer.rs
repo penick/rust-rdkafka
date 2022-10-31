@@ -547,6 +547,7 @@ where
 {
     fn drop(&mut self) {
         trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
+        println!("Destroying consumer");
         unsafe { rdsys::rd_kafka_consumer_close(self.client.native_ptr()) };
         trace!("Consumer destroyed: {:?}", self.client.native_ptr());
     }
