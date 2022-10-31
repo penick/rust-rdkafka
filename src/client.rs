@@ -159,9 +159,13 @@ pub struct NativeClient {
     ptr: NativePtr<RDKafka>,
 }
 
+unsafe extern "C" fn drop_kafka(ptr: *mut RDKafka) {
+    rdsys::rd_kafka_destroy_flags(ptr, rdsys::RD_KAFKA_DESTROY_F_NO_CONSUMER_CLOSE as i32);
+}
+
 unsafe impl KafkaDrop for RDKafka {
     const TYPE: &'static str = "client";
-    const DROP: unsafe extern "C" fn(*mut Self) = rdsys::rd_kafka_destroy;
+    const DROP: unsafe extern "C" fn(*mut Self) = drop_kafka;
 }
 
 // The library is completely thread safe, according to the documentation.
