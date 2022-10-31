@@ -541,15 +541,19 @@ where
     }
 }
 
-//impl<C> Drop for BaseConsumer<C>
-//where
-//    C: ConsumerContext,
-//{
-//    fn drop(&mut self) {
-//        trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
-//        trace!("Consumer destroyed: {:?}", self.client.native_ptr());
-//    }
-//}
+impl<C> Drop for BaseConsumer<C>
+where
+    C: ConsumerContext,
+{
+    fn drop(&mut self) {
+        trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
+        println!("Drop consumer");
+        unsafe { rdsys::rd_kafka_consumer_close(self.client.native_ptr()) };
+        trace!("Consumer destroyed: {:?}", self.client.native_ptr());
+        //trace!("Destroying consumer: {:?}", self.client.native_ptr()); // TODO: fix me (multiple executions ?)
+        //trace!("Consumer destroyed: {:?}", self.client.native_ptr());
+    }
+}
 
 /// A convenience iterator over the messages in a [`BaseConsumer`].
 ///

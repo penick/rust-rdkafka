@@ -160,6 +160,7 @@ pub struct NativeClient {
 }
 
 unsafe extern "C" fn drop_kafka(ptr: *mut RDKafka) {
+    println!("Destroy kafka object");
     rdsys::rd_kafka_destroy_flags(ptr, rdsys::RD_KAFKA_DESTROY_F_NO_CONSUMER_CLOSE as i32);
 }
 
